@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="video_njue" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/video_njue" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/video_njue" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="include/libavcodec/avcodec.h" />
+		<Unit filename="include/libavcodec/avfft.h" />
+		<Unit filename="include/libavcodec/dxva2.h" />
+		<Unit filename="include/libavcodec/old_codec_ids.h" />
+		<Unit filename="include/libavcodec/vaapi.h" />
+		<Unit filename="include/libavcodec/vda.h" />
+		<Unit filename="include/libavcodec/vdpau.h" />
+		<Unit filename="include/libavcodec/version.h" />
+		<Unit filename="include/libavcodec/xvmc.h" />
+		<Unit filename="include/libavutil/adler32.h" />
+		<Unit filename="include/libavutil/aes.h" />
+		<Unit filename="include/libavutil/attributes.h" />
+		<Unit filename="include/libavutil/audio_fifo.h" />
+		<Unit filename="include/libavutil/audioconvert.h" />
+		<Unit filename="include/libavutil/avassert.h" />
+		<Unit filename="include/libavutil/avconfig.h" />
+		<Unit filename="include/libavutil/avstring.h" />
+		<Unit filename="include/libavutil/avutil.h" />
+		<Unit filename="include/libavutil/base64.h" />
+		<Unit filename="include/libavutil/blowfish.h" />
+		<Unit filename="include/libavutil/bprint.h" />
+		<Unit filename="include/libavutil/bswap.h" />
+		<Unit filename="include/libavutil/channel_layout.h" />
+		<Unit filename="include/libavutil/common.h" />
+		<Unit filename="include/libavutil/cpu.h" />
+		<Unit filename="include/libavutil/crc.h" />
+		<Unit filename="include/libavutil/dict.h" />
+		<Unit filename="include/libavutil/error.h" />
+		<Unit filename="include/libavutil/eval.h" />
+		<Unit filename="include/libavutil/fifo.h" />
+		<Unit filename="include/libavutil/file.h" />
+		<Unit filename="include/libavutil/hmac.h" />
+		<Unit filename="include/libavutil/imgutils.h" />
+		<Unit filename="include/libavutil/intfloat.h" />
+		<Unit filename="include/libavutil/intfloat_readwrite.h" />
+		<Unit filename="include/libavutil/intreadwrite.h" />
+		<Unit filename="include/libavutil/lfg.h" />
+		<Unit filename="include/libavutil/log.h" />
+		<Unit filename="include/libavutil/lzo.h" />
+		<Unit filename="include/libavutil/mathematics.h" />
+		<Unit filename="include/libavutil/md5.h" />
+		<Unit filename="include/libavutil/mem.h" />
+		<Unit filename="include/libavutil/old_pix_fmts.h" />
+		<Unit filename="include/libavutil/opt.h" />
+		<Unit filename="include/libavutil/parseutils.h" />
+		<Unit filename="include/libavutil/pixdesc.h" />
+		<Unit filename="include/libavutil/pixfmt.h" />
+		<Unit filename="include/libavutil/random_seed.h" />
+		<Unit filename="include/libavutil/rational.h" />
+		<Unit filename="include/libavutil/samplefmt.h" />
+		<Unit filename="include/libavutil/sha.h" />
+		<Unit filename="include/libavutil/time.h" />
+		<Unit filename="include/libavutil/timecode.h" />
+		<Unit filename="include/libavutil/timestamp.h" />
+		<Unit filename="include/libavutil/version.h" />
+		<Unit filename="include/libavutil/xtea.h" />
+		<Unit filename="include/libswscale/swscale.h" />
+		<Unit filename="include/libswscale/version.h" />
+		<Unit filename="include/log.h" />
+		<Unit filename="include/ortp.h" />
+		<Unit filename="include/ortp/b64.h" />
+		<Unit filename="include/ortp/event.h" />
+		<Unit filename="include/ortp/ortp.h" />
+		<Unit filename="include/ortp/ortp_srtp.h" />
+		<Unit filename="include/ortp/payloadtype.h" />
+		<Unit filename="include/ortp/port.h" />
+		<Unit filename="include/ortp/rtcp.h" />
+		<Unit filename="include/ortp/rtp.h" />
+		<Unit filename="include/ortp/rtpsession.h" />
+		<Unit filename="include/ortp/rtpsignaltable.h" />
+		<Unit filename="include/ortp/sessionset.h" />
+		<Unit filename="include/ortp/str_utils.h" />
+		<Unit filename="include/ortp/stun.h" />
+		<Unit filename="include/ortp/stun_udp.h" />
+		<Unit filename="include/ortp/telephonyevents.h" />
+		<Unit filename="include/ortp/zrtp.h" />
+		<Unit filename="include/sdf.h" />
+		<Unit filename="include/x264.h" />
+		<Unit filename="include/x264_config.h" />
+		<Unit filename="include/yuyv2yuv420p.h" />
+		<Unit filename="src/file_operate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/log.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/ortp_module.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/test_x264.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/video_capture.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/video_test.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/x264_code.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/yuyv2yuv420p.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
