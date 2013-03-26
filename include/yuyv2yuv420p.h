@@ -21,10 +21,14 @@ struct Ctx
 	int 	rows;
 	int 	bytesperrow;
 	AVPicture	pic_src;
-	AVPicture	pic_target;
+	AVPicture	*pic_target;
 };
 
+struct Ctx ctx;
 
 int yuyv_to_i420p_format();
+
+void init_ctx(int width, int height);
+
 
 #endif /* YUYV2YUV420P_H_ */
