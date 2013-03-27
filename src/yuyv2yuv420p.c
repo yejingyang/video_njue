@@ -8,16 +8,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "sdf.h"
 #include "../include/yuyv2yuv420p.h"
 #include "../include/libavcodec/avcodec.h"
 #include "../include/libswscale/swscale.h"
 #include "../include/libavutil/pixfmt.h"
 
 
-void init_ctx(int width, int height,int bytesperline)
+void init_ctx(struct camera *cam)
 {
-    ctx.width = width;
-    ctx.heigth = height;
+    ctx.width = cam->width;
+    ctx.heigth = cam->height;
     ctx.sws = sws_getContext(width, height, AV_PIX_FMT_NONE, width, height, AV_PIX_FMT_YUV420P,
                             SWS_FAST_BILINEAR, 0, 0, 0);
     ctx.rows = height;
