@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include/sdf.h" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/x264_code.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1195" topLine="66" />
+			<Cursor1 position="5033" topLine="162" />
 		</Cursor>
-	</File>
-	<File name="src/yuyv2yuv420p.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="258" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="include/libavcodec/avcodec.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="152750" topLine="4568" />
-		</Cursor>
-	</File>
-	<File name="include/yuyv2yuv420p.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="352" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/libswscale/swscale.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5356" topLine="157" />
-		</Cursor>
+		<Folding>
+			<Collapse line="173" />
+		</Folding>
 	</File>
 	<File name="include/libavutil/pixfmt.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="21860" topLine="263" />
+		</Cursor>
+	</File>
+	<File name="include/x264.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="32846" topLine="684" />
+		</Cursor>
+	</File>
+	<File name="include/libavcodec/avcodec.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="152750" topLine="4568" />
+		</Cursor>
+	</File>
+	<File name="include/libswscale/swscale.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7050" topLine="205" />
+		</Cursor>
+	</File>
+	<File name="src/yuyv2yuv420p.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="723" topLine="7" />
+		</Cursor>
+	</File>
+	<File name="include/yuyv2yuv420p.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="305" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/sdf.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1074" topLine="51" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

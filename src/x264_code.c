@@ -8,8 +8,10 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <stdint.h>
+#include "../include/yuyv2yuv420p.h"
 #include "../include/x264.h"
 #include "../include/sdf.h"
+
 
 uint8 	*h264_buf;
 struct	encoder *h264_encoder;
@@ -103,14 +105,14 @@ int compress_begin(int width, int height)
 	}
 
 	//create a new picture
-	x264_picture_alloc(en->picture, X264_CSP_I422, en->param->i_width, en->param->i_height);
-	en->picture->img.i_csp = X264_CSP_I422;
+	x264_picture_alloc(en->picture, X264_CSP_I420, en->param->i_width, en->param->i_height);
+	en->picture->img.i_csp = X264_CSP_I420;
 	en->picture->img.i_plane = 3;
 
 	return SUCCESS;
 }
 
-/*
+
 
 //compress a frame
 int	compress_frame(int type, uint8 *in, uint8 *out)
@@ -124,8 +126,9 @@ int	compress_frame(int type, uint8 *in, uint8 *out)
 
 	uint8	*p_out = out;
 
+
 	//picture format conversion and save it in the picture planar field
-	yuyv_to_i420_format(in);
+	yuyv_to_i420p_format(in, en->picture);
 
 	switch (type)
 	{
@@ -166,9 +169,9 @@ int	compress_frame(int type, uint8 *in, uint8 *out)
 
 	return result;
 }
-*/
 
-//test
+
+/* test  compress_frame
 int	compress_frame(int type, uint8 *in, uint8 *out)
 {
 	struct encoder *en = h264_encoder;
@@ -235,153 +238,8 @@ int	compress_frame(int type, uint8 *in, uint8 *out)
 
 	return result;
 }
+*/
 
-
-
-//convert picture to YUYV(422) format into I420 format
-void yuyv_to_i420_format(uint8 *in)
-{
-	struct encoder *en = h264_encoder;
-	int		i = 0;
-	int		j = 0;
-	int		yuv422_length = en->param->i_width * en->param->i_height * 2;
-
-	uint8	*pic_in = in;
-
-	uint8 	*y = en->picture->img.plane[0];
-	uint8	*u = en->picture->img.plane[1];
-	uint8	*v = en->picture->img.plane[2];
-
-	int		is_y = 1;
-	int		is_u = 1;
-//	int 	is_odd_line = 1;
-//	int	    in_cycle = en->param->i_width * 2;
-//	int 	height = en->param->i_height;
-//	int 	index = 0;
-
-	uint8	tmp;
-//	int y_index = 0, u_index = 0, v_index = 0;
-
-
-	/*
-	 * yuv422 is YU YV YU YV serial unsigned char
-	 * so the packet of the source picture is 2 times of width
-	 */
-
-	// has segmentation error
-	for (i = 0; i < yuv422_length; i++)
-	{
-		tmp = *(pic_in + i);
-
-		if (is_y)
-		{
-			*(y++) = tmp;
-			is_y = 0;
-		}
-		else
-		{
-			if (is_u)
-			{
-				*(u++) = tmp;
-				is_u = 0;
-			}
-			else
-			{
-				*(v++) = tmp;
-				is_u = 1;
-			}
-
-			is_y = 1;
-		}
-	}
-
-	/*
-	for (i = 0; i < height; i++)
-	{
-		tmp = *(pic_in + index);
-		index++;
-
-		if (is_odd_line)
-		{
-			is_odd_line = 0;
-
-			for (j = 0; j < in_cycle; j++)
-			{
-				if (is_y)
-				{
-					*(y++) = tmp;
-					is_y = 0;
-				}
-				else
-				{
-					if (is_u)
-					{
-//						*(u++) = (tmp + *(pic_in + index)) >> 1;
-						*(u++) = tmp;
-						is_u = 0;
-					}
-					else
-					{
-//						*(v++) = (tmp + *(pic_in + index)) >> 1;
-						*(v++) = tmp;
-						is_u = 1;
-					}
-
-					is_y = 1;
-				}
-			}
-		}
-		else
-		{
-			is_odd_line = 1;
-
-			for (j = 0; j < in_cycle; j++)
-			{
-				if (is_y)
-				{
-					*(y++) = tmp;
-					is_y = 0;
-				}
-				else
-				{
-					is_y = 1;
-				}
-			}
-		}
-	}
-	*/
-
-	/*
-	for (i = 0; i < yuv422_length; ++i)
-	{
-		tmp = *(in + i);
-		if (is_y)
-		{
-		  *(y + y_index) = tmp;
-		  ++y_index;
-		  is_y = 0;
-		}
-		else
-		{
-			if (is_u)
-			{
-			  *(u + u_index) = tmp;
-			  ++u_index;
-			  is_u = 0;
-			}
-			else
-			{
-			  *(v + v_index) = tmp;
-			  ++v_index;
-			  is_u = 1;
-			  printf("v index is %d\n", v_index);
-			  printf("yuv422_length is %d", yuv422_length);
-			}
-			is_y = 1;
-		}
-	}
-	*/
-}
 
 
 //compress end

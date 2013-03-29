@@ -64,6 +64,7 @@ struct camera
 	int		width;
 	int		height;
 	int 	image_size;
+	int     bytesperrow;
 	int 	frame_number;
 	struct	v4l2_capability v4l2_cap;
 	struct 	v4l2_format		v4l2_fmt;

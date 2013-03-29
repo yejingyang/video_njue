@@ -13,21 +13,21 @@
 #include "../include/libavcodec/avcodec.h"
 #include "../include/libswscale/swscale.h"
 #include "../include/libavutil/pixfmt.h"
+#include "x264.h"
 
 
 void init_ctx(struct camera *cam)
 {
     ctx.width = cam->width;
     ctx.heigth = cam->height;
-    ctx.sws = sws_getContext(width, height, AV_PIX_FMT_NONE, width, height, AV_PIX_FMT_YUV420P,
-                            SWS_FAST_BILINEAR, 0, 0, 0);
+    ctx.sws = sws_getContext(width, height, AV_PIX_FMT_YUYV422, width, height, AV_PIX_FMT_YUV420P,
+                            SWS_FAST_BILINEAR, NULL, NULL, NULL);
     ctx.rows = height;
-    ctx.bytesperrow = bytesperline;
-    avpicture_alloc(ctx.pic_target, AV_PIX_FMT_YUV420P, ctx.width, ctx.heigth);
+    ctx.bytesperrow = cam->bytesperrow;
 }
 
 
-int yuyv_to_i420p_format(uint8_t *in)
+int yuyv_to_i420p_format(uint8_t *in, x264_picture_t *pic)
 {
     int rs = 0;
 
@@ -39,5 +39,7 @@ int yuyv_to_i420p_format(uint8_t *in)
     ctx.pic_src.linesize[1] = ctx.pic_src.linesize[2] = ctx.pic_src.linesize[3] = 0;
 
     rs = sws_scale(ctx.sws, ctx.pic_src.data, ctx.pic_src.linesize,
-                    0, ctx.rows, ctx.pic_target->data, ctx.pic_target->linesize);
+                    0, ctx.rows, pic->img.plane, pic->img.i_stride);
+//    pic->img.i_plane = 3;
+    return rs;
 }
