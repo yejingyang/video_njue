@@ -12,16 +12,17 @@
 
 #include "libswscale/swscale.h"
 #include "sdf.h"
+#include "x264.h"
 
 struct Ctx
 {
 	int 	vid;
 	int 	width;
-	int 	heigth;
+	int 	height;
 	struct SwsContext *sws;
 	int 	rows;
 	int 	bytesperrow;
-	AVPicture	pic_src;
+	AVPicture pic_src;
 };
 
 struct Ctx ctx;
@@ -29,6 +30,8 @@ struct Ctx ctx;
 int yuyv_to_i420p_format(uint8_t *in, x264_picture_t *pic);
 
 void init_ctx(struct camera *cam);
+
+void uninit_ctx();
 
 
 #endif /* YUYV2YUV420P_H_ */

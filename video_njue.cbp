@@ -90,7 +90,6 @@
 		<Unit filename="include/libswscale/swscale.h" />
 		<Unit filename="include/libswscale/version.h" />
 		<Unit filename="include/log.h" />
-		<Unit filename="include/ortp.h" />
 		<Unit filename="include/ortp/b64.h" />
 		<Unit filename="include/ortp/event.h" />
 		<Unit filename="include/ortp/ortp.h" />
@@ -121,6 +120,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/ortp_module.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/test_all.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/test_x264.c">

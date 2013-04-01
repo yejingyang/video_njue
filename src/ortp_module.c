@@ -12,9 +12,9 @@
 
 struct rtp_session_mgr_t *rtp_session_mgr;
 
-int		ortp_payload_type = 40;
-int8	*orpt_remote_ip_address = NULL;
-int		ortp_port = 8000;
+int		ortp_payload_type = 34;
+int8	*orpt_remote_ip_address = "172.17.13.132";
+int		ortp_port = 1234;
 int		ortp_timestamp = 3600;
 
 
@@ -79,9 +79,13 @@ int	rtp_send(uint8 *src, int length)
 											length,
 											rtp_session_mgr->cur_timestamp);
 
-	rtp_session_mgr->cur_timestamp += rtp_session_mgr->timestamp_inc;
-
 	return sended_bytes;
+}
+
+
+void rtp_update_timestamp()
+{
+    rtp_session_mgr->cur_timestamp += rtp_session_mgr->timestamp_inc;
 }
 
 //release the resource ORTP protocol took up

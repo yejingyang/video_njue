@@ -18,7 +18,7 @@ typedef unsigned char uint8_t;
 #endif
 
 #ifdef ORTP
-#include "ortp.h"
+#include "../include/ortp/ortp.h"
 #endif
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))

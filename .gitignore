@@ -1,0 +1,5 @@
+*.o
+*.yuv
+*.x264
+Makefile
+bin/

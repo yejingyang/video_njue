@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include "../include/sdf.h"
 #include "../include/yuyv2yuv420p.h"
+#include "../include/ortp/ortp.h"
 
 
 int get_and_compress_pic(struct camera *cam)
@@ -53,12 +54,13 @@ int get_and_compress_pic(struct camera *cam)
 		out_length = 0;
 		memset(pic, 0, 640 * 480 * 2);
 		memset(pic_out, 0, 640 * 480 * 2);
-		printf("\n\n this is the %d th frame\n", count);
-		if (count++ > 100)
+		printf("\n\n this is the %d th frame\n", count++);
+/*		if (count++ > 100)
 		{
 			printf("exit\n");
 			break;
 		}
+*/
 
 		FD_ZERO(&fds);
 		FD_SET(cam->camera_fd, &fds);
@@ -77,7 +79,7 @@ int get_and_compress_pic(struct camera *cam)
 			break;
 		default:
 			read_frame_from_camera(cam, pic, &length);
-			yuv_write(pic, length);
+//			yuv_write(pic, length);
 
 			if (pic[0] == '\0')
 			{
@@ -107,7 +109,7 @@ int main()
 	init_encoder(&ca);
 	compress_begin(ca.width, ca.height);
 	init_ctx(&ca);
-
+	init_rtp();
 
 	get_and_compress_pic(&ca);
 

@@ -12,6 +12,10 @@
 #include "../include/x264.h"
 #include "../include/sdf.h"
 
+//test
+#include "../include/ortp/ortp.h"
+
+
 
 uint8 	*h264_buf;
 struct	encoder *h264_encoder;
@@ -20,7 +24,6 @@ struct	encoder *h264_encoder;
 void init_encoder(struct camera *cam)
 {
 	h264_encoder = NULL;
-
 	//get memory for the encoder
 	if (NULL == (h264_encoder =
 			(struct encoder *)malloc(sizeof(struct encoder))))
@@ -125,8 +128,6 @@ int	compress_frame(int type, uint8 *in, uint8 *out)
 	int		i = 0;
 
 	uint8	*p_out = out;
-
-
 	//picture format conversion and save it in the picture planar field
 	yuyv_to_i420p_format(in, en->picture);
 
@@ -165,7 +166,15 @@ int	compress_frame(int type, uint8 *in, uint8 *out)
 		p_out += en->nal[i].i_payload;
 
 		result += en->nal[i].i_payload;
+
+		printf("payload is %d length\n", en->nal[i].i_payload);
+
+		//test send to rtp
+		rtp_send(en->nal[i].p_payload, en->nal[i].i_payload);
 	}
+
+	//ortp update timestamp
+	rtp_update_timestamp();
 
 	return result;
 }

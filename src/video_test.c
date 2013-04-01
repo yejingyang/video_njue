@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include "../include/sdf.h"
+#include "../include/yuyv2yuv420p.h"
 
 
 int main()
@@ -35,6 +36,9 @@ int main()
 
 	set_yuv_filename("test.jpg");
 	init_file();
+
+	init_ctx(&ca);
+
 
 	read_frame_from_camera(&ca, pic, &length);
 	yuv_write(pic, length);

@@ -139,6 +139,8 @@ void init_camera(struct camera *cam)
 		fmt->fmt.pix.sizeimage = min;
 	}
 
+    cam->bytesperrow = fmt->fmt.pix.bytesperline;
+
 	//initialize the memory map from kernel space to user space
 	init_mmap(cam);
 }
