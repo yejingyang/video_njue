@@ -12,7 +12,7 @@
 
 struct rtp_session_mgr_t *rtp_session_mgr;
 
-int		ortp_payload_type = 34;
+int		ortp_payload_type = 96;
 int8	*orpt_remote_ip_address = "172.17.13.132";
 int		ortp_port = 1234;
 int		ortp_timestamp = 3600;
