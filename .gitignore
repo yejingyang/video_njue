@@ -3,3 +3,4 @@
 *.x264
 Makefile
 bin/
+*.layout

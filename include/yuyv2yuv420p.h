@@ -22,7 +22,10 @@ struct Ctx
 	struct SwsContext *sws;
 	int 	rows;
 	int 	bytesperrow;
-	AVPicture pic_src;
+
+	//test
+//	AVPicture pic_src;
+    x264_picture_t pic_xsrc;
 };
 
 struct Ctx ctx;
