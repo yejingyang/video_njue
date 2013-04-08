@@ -1,0 +1,37 @@
+What is it ?
+************
+
+This is the first Version of video capture and compress server
+It could capture the video ,compress the video frame with the libx264 codec, then it could also send it to the client by using ortp libary
+For more information, please visit our website.
+
+Why we do this?
+***************
+
+Hum, it a good question.
+Firstly, I(we) do this for the graduation design which I must complete it before graduate.
+Secondly, Our organization is for reseach, It's a new feild for all of us,so this demo isn't worth mentioning.
+I shared it here ,just for fun. After all, it cast a lot of my time.
+
+How to contact us?
+******************
+
+Because of that our website is not work all the time and not stable.If you intersted about it, just email to jyangye@163.com
+
+LICENSE 
+*******
+
+this programe are licensed under the GNU General Public License Version 2 or leter (GPL v2+)
+see the file (not imply ye) for detail information
+
+
+Version changes or features
+***************
+
+V1.0_original
+	- support USB video camera
+	- using v4l2 to capture the video
+	- using x264 codec compress the picture frame
+	- using x264 codec cut the big nal unit
+	- using ortp libary to transmit the h.264 stream date
+	- modified the ortp to support the h.264 video stream
