@@ -7,20 +7,19 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-#include "../include/sdf.h"
 
-
-struct rtp_session_mgr_t *rtp_session_mgr;
-
-int		ortp_payload_type = 96;
-int8	*orpt_remote_ip_address = "172.17.13.132";
-int		ortp_port = 1234;
-int		ortp_timestamp = 3600;
+#include "sdf.h"
+#include "ortp_module.h"
 
 
 //initialize the RTP protocol
 int init_rtp()
 {
+    ortp_payload_type   = 96;
+    ortp_port           = 1234;
+    ortp_timestamp      = 3600;
+    orpt_remote_ip_address = "172.17.13.132";
+
 	rtp_session_mgr = NULL;
 	char	*m_SSRC = NULL;
 
@@ -82,7 +81,7 @@ int	rtp_send(uint8 *src, int length)
 	return sended_bytes;
 }
 
-
+//update the rtp timestamp
 void rtp_update_timestamp()
 {
     rtp_session_mgr->cur_timestamp += rtp_session_mgr->timestamp_inc;
@@ -98,4 +97,86 @@ int uninit_rtp()
 	rtp_session_mgr = NULL;
 
 	return SUCCESS;
+}
+
+
+
+//deal with the nalu and cut it to adapt with the MTU
+int send_nalu_by_rtp(x264_nal_t *nal, int nNal)
+{
+    int     i = 0;
+    int     j = 0;
+    int     fu_count = 0;
+    int     payload_count = 0;
+    int     current_bytes = 0;
+
+    uint8   flag = 0;//original nalu header flag
+    uint8   fu_flag = 0;
+    uint8   nal_flag = 0;
+    uint8   *tmp = NULL;
+    uint8   *buf = nal_buf;
+
+    for (i = 0; i < nNal; i++)
+    {
+        //abandon the original payload header
+        if (*(nal[i].p_payload + 2) & 0x01)
+        {
+            tmp = nal[i].p_payload + 3;
+            payload_count = nal[i].i_payload - 3;
+        }
+        else
+        {
+            tmp = nal[i].p_payload + 4;
+            payload_count = nal[i].i_payload - 4;
+        }
+
+        //judge if the payload shuld cut or not
+        if (MTU < payload_count)
+        {
+            flag = tmp[0];
+            fu_flag = 0;
+            nal_flag = 0;
+            tmp = tmp + 1;
+            payload_count = payload_count - 1;
+            fu_count = payload_count / MTU;
+
+            //FU-A is 28 ,B11100000 is 224
+            fu_flag = ((flag & 224) | 28);
+
+            for ( j = 0; j < fu_count; j++)
+            {
+                //set the nalu type by original nalu flag
+                nal_flag = (flag & 31);
+                current_bytes = MTU;
+
+                if ( j == 0)
+                {
+                    //start of the FU-A group
+                    nal_flag = (nal_flag | 128);
+                }
+                else if (j == (fu_count - 1))
+                {
+                    //end of the FU-A group
+                    nal_flag = (nal_flag | 64);
+                    current_bytes = payload_count;
+                }
+
+                *buf = fu_flag;
+                *(buf + 1) = nal_flag;
+                memcpy(buf + 2, tmp, current_bytes);
+                tmp += current_bytes;
+
+                rtp_send(buf, current_bytes + 2);
+
+                payload_count -= current_bytes;
+            }
+        }
+        else
+        {
+            rtp_send(tmp, payload_count);
+        }
+    }
+
+    //update the rtp timestamp
+    rtp_update_timestamp();
 }

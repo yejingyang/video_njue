@@ -18,21 +18,23 @@
 #include <sys/select.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "../include/sdf.h"
-#include "../include/yuyv2yuv420p.h"
-#include "../include/ortp/ortp.h"
+#include "sdf.h"
+#include "yuyv2yuv420p.h"
+#include "ortp_module.h"
 
 
 int get_and_compress_pic(struct camera *cam)
 {
 	int count = 1;
+    int	ret;
+	int length = 0;
+    int out_length = 0;
+
+    uint8 *pic;
+	uint8 *pic_out;
+
 	fd_set fds;
 	struct timeval tv;
-	int	ret;
-	int length=0;
-	uint8 *pic;
-	uint8 *pic_out;
-	int out_length=0;
 
 	pic = (int8 *)malloc(640 * 480 * 2);
 	if (NULL == pic)
@@ -54,13 +56,8 @@ int get_and_compress_pic(struct camera *cam)
 		out_length = 0;
 		memset(pic, 0, 640 * 480 * 2);
 		memset(pic_out, 0, 640 * 480 * 2);
+
 		printf("\n\n this is the %d th frame\n", count++);
-/*		if (count++ > 100)
-		{
-			printf("exit\n");
-			break;
-		}
-*/
 
 		FD_ZERO(&fds);
 		FD_SET(cam->camera_fd, &fds);
@@ -79,14 +76,13 @@ int get_and_compress_pic(struct camera *cam)
 			break;
 		default:
 			read_frame_from_camera(cam, pic, &length);
-//			yuv_write(pic, length);
 
 			if (pic[0] == '\0')
 			{
 				break;
 			}
-			out_length = compress_frame(-1, pic, pic_out);
-			h264_write(pic_out, out_length);
+
+			out_length = compress_frame(-1, pic, send_nalu_by_rtp);
 		}
 	}
 }
