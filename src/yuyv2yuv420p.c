@@ -8,16 +8,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "sdf.h"
+
 #include "../include/yuyv2yuv420p.h"
 #include "../include/libavutil/pixfmt.h"
-#include "x264.h"
-
-#include "libswscale/swscale.h"
 
 //#include "libavcodec/avcodec.h"
 
 
+//initialize the ctx structure
 void init_ctx(struct camera *cam)
 {
     ctx.width = cam->width;
@@ -31,7 +29,6 @@ void init_ctx(struct camera *cam)
 //    avpicture_alloc(&ctx.pic_src, PIX_FMT_YUYV422, ctx.width, ctx.height);
     x264_picture_alloc(&ctx.pic_xsrc, X264_CSP_I422, ctx.width, ctx.height);
 
-
     printf("ctx width is %d\n", ctx.width);
     printf("ctx heigth is %d\n", ctx.height);
     printf("ctx bytesperline is %d\n", ctx.bytesperrow);
@@ -39,6 +36,7 @@ void init_ctx(struct camera *cam)
 }
 
 
+//change picture from one format to another(here is yuv420)
 int yuyv_to_i420p_format(uint8_t *in, x264_picture_t *pic)
 {
     int rs = 0;
@@ -67,6 +65,7 @@ int yuyv_to_i420p_format(uint8_t *in, x264_picture_t *pic)
 }
 
 
+//uninitialize the ctx structure
 void uninit_ctx()
 {
 

@@ -8,17 +8,9 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <stdint.h>
-#include "../include/yuyv2yuv420p.h"
-#include "../include/x264.h"
-#include "../include/sdf.h"
 
-//test
-#include "../include/ortp/ortp.h"
+#include "x264_code.h"
 
-
-
-uint8 	*h264_buf;
-struct	encoder *h264_encoder;
 
 //initialize the x264 encoder
 void init_encoder(struct camera *cam)
@@ -93,11 +85,15 @@ int compress_begin(int width, int height)
 	//set reference frame with 1 frame
 	en->param->i_frame_reference = 1;
 
+	//set idr jiange
+	en->param->i_keyint_max = 15;
+	en->param->i_keyint_min = 5;
+
 	/*
 	 * set the maximum of picture slice to 1400 to adapt with
 	 * the net MTU(1500)
 	 */
-	en->param->i_slice_max_size = 1400;
+//	en->param->i_slice_max_size = 1400;
 
 	//use base line profile
 	x264_param_apply_profile(en->param, x264_profile_names[0]);
@@ -109,25 +105,22 @@ int compress_begin(int width, int height)
 
 	//create a new picture
 	x264_picture_alloc(en->picture, X264_CSP_I420, en->param->i_width, en->param->i_height);
-	en->picture->img.i_csp = X264_CSP_I420;
-	en->picture->img.i_plane = 3;
+
+	//set pts
+	en->picture->i_pts = 0;
 
 	return SUCCESS;
 }
 
 
 
-//compress a frame
-int	compress_frame(int type, uint8 *in, uint8 *out)
+//compress a frame and deal with the result with the nal_handle function
+int	compress_frame(int type, uint8 *in, nal_fun_handle nal_handle)
 {
 	struct encoder *en = h264_encoder;
-
 	x264_picture_t	pic_out;
 	int 	nNal = -1;
-	int 	result = 0;
-	int		i = 0;
 
-	uint8	*p_out = out;
 	//picture format conversion and save it in the picture planar field
 	yuyv_to_i420p_format(in, en->picture);
 
@@ -159,96 +152,14 @@ int	compress_frame(int type, uint8 *in, uint8 *out)
 		return BASICERROR;
 	}
 
-	//do with the encode result
-	for (i = 0; i < nNal; i++)
-	{
-		memcpy(p_out, en->nal[i].p_payload, en->nal[i].i_payload);
-		p_out += en->nal[i].i_payload;
+	//update pts
+	en->picture->i_pts++;
 
-		result += en->nal[i].i_payload;
+    //deal with the compress result
+	nal_handle( en->nal, nNal);
 
-		printf("payload is %d length\n", en->nal[i].i_payload);
-
-		//test send to rtp
-		rtp_send(en->nal[i].p_payload, en->nal[i].i_payload);
-	}
-
-	//ortp update timestamp
-	rtp_update_timestamp();
-
-	return result;
+	return SUCCESS;
 }
-
-
-/* test  compress_frame
-int	compress_frame(int type, uint8 *in, uint8 *out)
-{
-	struct encoder *en = h264_encoder;
-	x264_picture_t pic_out;
-	int nNal = -1;
-	int result = 0;
-	int i = 0;
-	uint8_t *p_out = out;
-
-	char *y = en->picture->img.plane[0];
-	char *u = en->picture->img.plane[1];
-	char *v = en->picture->img.plane[2];
-
-	int is_y = 1, is_u = 1;
-	int y_index = 0, u_index = 0, v_index = 0;
-
-	int yuv422_length = 2 * en->param->i_width * en->param->i_height;
-
-	//序列为YU YV YU YV，一个yuv422帧的长度 width * height * 2 个字节
-	for (i = 0; i < yuv422_length; ++i) {
-		if (is_y) {
-			*(y + y_index) = *(in + i);
-			++y_index;
-			is_y = 0;
-		} else {
-			if (is_u) {
-				*(u + u_index) = *(in + i);
-				++u_index;
-				is_u = 0;
-			} else {
-				*(v + v_index) = *(in + i);
-				++v_index;
-				is_u = 1;
-			}
-			is_y = 1;
-		}
-	}
-
-	switch (type) {
-	case 0:
-		en->picture->i_type = X264_TYPE_P;
-		break;
-	case 1:
-		en->picture->i_type = X264_TYPE_IDR;
-		break;
-	case 2:
-		en->picture->i_type = X264_TYPE_I;
-		break;
-	default:
-		en->picture->i_type = X264_TYPE_AUTO;
-		break;
-	}
-
-	if (x264_encoder_encode(en->handle, &(en->nal), &nNal, en->picture,
-			&pic_out) < 0) {
-		return -1;
-	}
-
-	for (i = 0; i < nNal; i++) {
-		memcpy(p_out, en->nal[i].p_payload, en->nal[i].i_payload);
-		p_out += en->nal[i].i_payload;
-		result += en->nal[i].i_payload;
-	}
-
-	return result;
-}
-*/
-
 
 
 //compress end

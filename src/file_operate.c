@@ -146,6 +146,20 @@ int file_write(uint8 *src, int length, FILE *fd)
 }
 
 
+//save the original nal unit to the file system
+int save_nalu_to_filesystem(x264_nal_t *nal, int nNal)
+{
+    int     i = 0;
+
+    for (i = 0; i < nNal; i++)
+    {
+        h264_write(nal[i].p_payload, nal[i].i_payload);
+    }
+
+    return SUCCESS;
+}
+
+
 //close the opened file
 int uninit_file()
 {

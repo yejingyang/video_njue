@@ -19,8 +19,9 @@
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <unistd.h>
-#include "../include/sdf.h"
 
+#include "sdf.h"
+#include "video_capture.h"
 
 //open camera
 void open_camera(struct camera *cam)

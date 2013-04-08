@@ -31,6 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/file_operate.h" />
 		<Unit filename="include/libavcodec/avcodec.h" />
 		<Unit filename="include/libavcodec/avfft.h" />
 		<Unit filename="include/libavcodec/dxva2.h" />
@@ -106,8 +107,11 @@
 		<Unit filename="include/ortp/stun_udp.h" />
 		<Unit filename="include/ortp/telephonyevents.h" />
 		<Unit filename="include/ortp/zrtp.h" />
+		<Unit filename="include/ortp_module.h" />
 		<Unit filename="include/sdf.h" />
+		<Unit filename="include/video_capture.h" />
 		<Unit filename="include/x264.h" />
+		<Unit filename="include/x264_code.h" />
 		<Unit filename="include/x264_config.h" />
 		<Unit filename="include/yuyv2yuv420p.h" />
 		<Unit filename="src/file_operate.c">
